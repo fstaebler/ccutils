@@ -1,0 +1,3 @@
+print("rshell starting up...")
+--...
+print("...done.")
