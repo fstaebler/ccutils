@@ -9,7 +9,7 @@ print("installing utils...")
 fs.makeDir("utils")
 programList = {}
 programList[1] = "utils/fillToLevel"
-for i, p in pairs(programList) do
+for i, p in ipairs(programList) do
 	print("installing ", p, "...")
 end
 print("...done.")
