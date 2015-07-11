@@ -7,10 +7,9 @@ if fs.exists("utils") then
 end
 print("installing utils...")
 fs.makeDir("utils")
-programList = [
-	""
-]
+programList = {}
+t[1] = "utils/fillToLevel"
 for p in programList do
-	
+	print("installing " + p + "...")
 end
 print("...done.")
