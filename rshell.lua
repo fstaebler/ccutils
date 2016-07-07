@@ -1,4 +1,4 @@
-print("rshell starting up...")
+print("rshell v0.0.1 starting up...")
 print("initiating remote control loop...")
 result = "BEGIN"
 repeat
