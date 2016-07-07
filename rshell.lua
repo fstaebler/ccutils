@@ -12,10 +12,10 @@ repeat
 		s = loadstring(c)
     status, result = pcall(s)
 		if not status then
-      status = "ERROR\n" + status
+      status = "ERROR\n" .. status
 			print("An error occured!")
 		else
-      status = "SUCCESS\n" + status
+      status = "SUCCESS\n" .. status
     end
 	end
 until not a

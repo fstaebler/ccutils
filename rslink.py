@@ -34,10 +34,11 @@ def handle_command(s):
   s.send_error(200)
 
 def handle_result(s):
+  print(str(s.rfile.read(), "utf-8"))
   s.send_response(200)
   s.end_headers()
   s.wfile.write(bytes("os.sleep(1)\nreturn \"hello\"", "utf-8"))
-  print str(s.rfile.read(), "utf-8")
+
 
 class rslink_handler(http.server.BaseHTTPRequestHandler):
 
