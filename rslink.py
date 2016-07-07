@@ -5,7 +5,7 @@ import urllib.parse as urlparse
 import json as json
 from datetime import datetime
 
-c = sql.connect("votes.db")
+c = sql.connect("rshell.db")
 
 def serve_file(path, s):
   try:
@@ -31,11 +31,13 @@ def serve_file(path, s):
     s.send_error(404)
 
 def handle_command(s):
-	s.send_error(200)
+  s.send_error(200)
 
 def handle_result(s):
-	print(s.rfile.read())
-	s.send_error(200)
+  s.send_response(200)
+  s.end_headers()
+  s.wfile.write(bytes("os.sleep(1)\nreturn \"hello\"", "utf-8"))
+  print str(s.rfile.read(), "utf-8")
 
 class rslink_handler(http.server.BaseHTTPRequestHandler):
 
@@ -57,8 +59,8 @@ class rslink_handler(http.server.BaseHTTPRequestHandler):
     except:
       s.send_error(500, "Server Error", "Something the server was not prepared for happened")
 
-	def do_POST(s):
-		path = s.path.split("/")[1:]
+  def do_POST(s):
+    path = s.path.split("/")[1:]
     try:
       if path[0] == "result": #log client errors
         handle_result(s)
