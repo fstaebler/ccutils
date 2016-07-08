@@ -15,19 +15,25 @@ function responsestring(st, msg)
   return st .. r .. id .. r .. label .. r .. msg
 end
 
-print("rshell v0.0.7 starting up...")
+print("rshell v0.1.10")
 result = responsestring("BEGIN")
-repeat
-  print("Getting a command...")
-  a = http.post(api_endpoint, result)
-  if a then
-    s = loadstring(a.readAll())
-    status, result = pcall(s)
-    if not status then
-      result = responsestring("ERROR", result)
-    else
-      result = responsestring("SUCCESS", result)
+i = 0
+while i < 10 do
+  repeat
+    a = http.post(api_endpoint, result)
+    if a then
+      i = 0
+      s = loadstring(a.readAll())
+      status, result = pcall(s)
+      if not status then
+        result = responsestring("ERROR", result)
+      else
+        result = responsestring("SUCCESS", result)
+      end
     end
-  end
-until not a
-print("Exiting to CraftOS.")
+  until not a
+  os.sleep(10)
+  i = i + 1
+  print("connection failed, retrying...")
+end
+print("exiting to craftOS.")
