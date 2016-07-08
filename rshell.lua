@@ -1,7 +1,7 @@
 api_endpoint = "http://kek:8000/result"
 
 function responsestring(st, msg)
-  local id = tostring(os.getComputerId())
+  local id = tostring(os.getComputerID())
   local label = os.getComputerLabel()
   local r = "\n"
   if not label then
