@@ -1,7 +1,22 @@
 api_endpoint = "http://kek:8000/result"
 
-print("rshell v0.0.6 starting up...")
-result = "BEGIN\n" .. tostring(os.getComputerID()) .. "\n" .. tostring(os.getComputerLabel())
+function responsestring(st, msg)
+  local id = tostring(os.getComputerId())
+  local label = os.getComputerLabel()
+  local r = "\n"
+  if not label then
+    label = "Unnamed Device"
+  end
+  if not msg then
+    msg = ""
+  else
+    msg = tostring(msg)
+  end
+  return st .. r .. id .. r .. label .. r .. msg
+end
+
+print("rshell v0.0.7 starting up...")
+result = responsestring("BEGIN")
 repeat
   print("Getting a command...")
   a = http.post(api_endpoint, result)
@@ -9,11 +24,10 @@ repeat
     s = loadstring(a.readAll())
     status, result = pcall(s)
     if not status then
-      statusstring = "ERROR\n"
+      result = responsestring("ERROR", result)
     else
-      statusstring = "SUCCESS\n"
+      result = responsestring("SUCCESS", result)
     end
-    result = statusstring .. tostring(os.getComputerID()) .. "\n" .. tostring(os.getComputerLabel()) .. "\n" .. tostring(result)
   end
 until not a
 print("Exiting to CraftOS.")
