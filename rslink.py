@@ -34,10 +34,11 @@ def handle_command(s):
   s.send_error(200)
 
 def handle_result(s):
-  print(str(s.rfile.read(3), "utf-8"))
+  l = int(s.headers.get("content-length"))
+  print(str(s.rfile.read(l), "utf-8"))
   s.send_response(200)
   s.end_headers()
-  s.wfile.write(bytes("os.sleep(1)\nreturn \"hello\"", "utf-8"))
+  s.wfile.write(bytes("os.sleep(1)\nreturn \"Still there & running!\"", "utf-8"))
 
 
 class rslink_handler(http.server.BaseHTTPRequestHandler):
@@ -47,11 +48,7 @@ class rslink_handler(http.server.BaseHTTPRequestHandler):
   def do_GET(s):
     path = s.path.split("/")[1:]
     try:
-      if path[0] == "result": #log client errors
-        handle_result(s)
-      elif path[0] == "command": #receive votes
-        handle_command(s)
-      elif path[0] == "static":
+      if path[0] == "static":
         serve_file("static/" + path[1], s)
       elif path[0] == "" or path[0] == "index.html":
         serve_file("index.html", s)
@@ -63,16 +60,12 @@ class rslink_handler(http.server.BaseHTTPRequestHandler):
   def do_POST(s):
     path = s.path.split("/")[1:]
     try:
-      if path[0] == "result": #log client errors
+      if path[0] == "result": #minecraft access
         handle_result(s)
-      elif path[0] == "command": #receive votes
+      elif path[0] == "command": #web client access
         handle_command(s)
-      elif path[0] == "static":
-        serve_file("static/" + path[1], s)
-      elif path[0] == "" or path[0] == "index.html":
-        serve_file("index.html", s)
       else:
-        s.send_error(403, "Not Allowed", "You are not allowed to access this directory")
+        s.send_error(501, "Method Not Supported", "POST is not supported for this path.")
     except:
       s.send_error(500, "Server Error", "Something the server was not prepared for happened")
 
