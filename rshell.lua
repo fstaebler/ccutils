@@ -1,7 +1,7 @@
 api_endpoint = "http://kek:8000/result"
 
-print("rshell v0.0.4 starting up...")
-result = "BEGIN\n" .. tostring(os.getComputerID) .. "\n" .. toString(os.getComputerLabel)
+print("rshell v0.0.5 starting up...")
+result = "BEGIN\n" .. tostring(os.getComputerID) .. "\n" .. tostring(os.getComputerLabel)
 repeat
   print("Getting a command...")
   a = http.post(api_endpoint, result)
